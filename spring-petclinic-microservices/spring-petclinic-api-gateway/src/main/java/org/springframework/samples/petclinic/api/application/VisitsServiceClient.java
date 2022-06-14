@@ -19,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.samples.petclinic.api.dto.Visits;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.Builder;
+
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -36,8 +38,14 @@ public class VisitsServiceClient {
     private String hostname = "http://visits-service/";
 
     private final WebClient.Builder webClientBuilder;
+    
 
-    public Mono<Visits> getVisitsForPets(final List<Integer> petIds) {
+    public VisitsServiceClient(Builder webClientBuilder) {
+		super();
+		this.webClientBuilder = webClientBuilder;
+	}
+
+	public Mono<Visits> getVisitsForPets(final List<Integer> petIds) {
         return webClientBuilder.build()
             .get()
             .uri(hostname + "pets/visits?petId={petId}", joinIds(petIds))

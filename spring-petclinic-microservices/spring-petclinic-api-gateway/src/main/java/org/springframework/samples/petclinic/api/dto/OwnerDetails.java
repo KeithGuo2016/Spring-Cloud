@@ -26,7 +26,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author Maciej Szarlinski
  */
-@Data
+//@Data
 public class OwnerDetails {
 
     private int id;
@@ -42,8 +42,88 @@ public class OwnerDetails {
     private String telephone;
 
     private final List<PetDetails> pets = new ArrayList<>();
+    
+    
 
-    @JsonIgnore
+    public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+
+	public String getCity() {
+		return city;
+	}
+
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+
+
+	public List<PetDetails> getPets() {
+		return pets;
+	}
+
+
+
+	@JsonIgnore
     public List<Integer> getPetIds() {
         return pets.stream()
             .map(PetDetails::getId)

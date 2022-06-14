@@ -59,8 +59,38 @@ public class Visit {
 
     @Column(name = "pet_id")
     private int petId;
+    
+    public Visit() {
+		super();
+	}
+    
+	public Visit(Integer id, int petId) {
+		super();
+		this.id = id;
+		this.petId = petId;
+	}
 
-    public Integer getId() {
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
+	public Integer getId() {
         return id;
     }
 

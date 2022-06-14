@@ -88,7 +88,7 @@
                             <execution>
                                 <!-- Spring Boot Actuator displays build-related information if a META-INF/build-info.properties file is present -->
                                 <goals>
-                                    <goal>build-info</goal>
+                                    <goal>repackage</goal>
                                 </goals>
                                 <configuration>
                                     <additionalProperties>
@@ -103,7 +103,7 @@
                     </plugin>
 
                     <!-- Spring Boot Actuator displays build-related information if a META-INF/build-info.properties file is present -->
-                    <plugin>
+<!--                     <plugin>
                         <groupId>pl.project13.maven</groupId>
                         <artifactId>git-commit-id-plugin</artifactId>
                         <executions>
@@ -121,7 +121,7 @@
                             <failOnNoGitDirectory>false</failOnNoGitDirectory>
                             <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
                         </configuration>
-                    </plugin>
+                    </plugin> -->
                 </plugins>
             </build>
         </profile>

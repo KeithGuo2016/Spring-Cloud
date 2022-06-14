@@ -15,7 +15,10 @@
  */
 package org.springframework.samples.petclinic.api.boundary.web;
 
-import lombok.RequiredArgsConstructor;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.samples.petclinic.api.application.CustomersServiceClient;
@@ -26,10 +29,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Maciej Szarlinski
@@ -38,22 +40,24 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/api/gateway")
 public class ApiGatewayController {
+	
+	@Autowired
+    private CustomersServiceClient customersServiceClient;
 
-    private final CustomersServiceClient customersServiceClient;
+	@Autowired
+    private VisitsServiceClient visitsServiceClient;
 
-    private final VisitsServiceClient visitsServiceClient;
-
-    private final ReactiveCircuitBreakerFactory cbFactory;
+//    private final ReactiveCircuitBreakerFactory cbFactory;
 
     @GetMapping(value = "owners/{ownerId}")
     public Mono<OwnerDetails> getOwnerDetails(final @PathVariable int ownerId) {
         return customersServiceClient.getOwner(ownerId)
             .flatMap(owner ->
                 visitsServiceClient.getVisitsForPets(owner.getPetIds())
-                    .transform(it -> {
-                        ReactiveCircuitBreaker cb = cbFactory.create("getOwnerDetails");
-                        return cb.run(it, throwable -> emptyVisitsForPets());
-                    })
+//                    .transform(it -> {
+//                        ReactiveCircuitBreaker cb = cbFactory.create("getOwnerDetails");
+//                        return cb.run(it, throwable -> emptyVisitsForPets());
+//                    })
                     .map(addVisitsToOwner(owner))
             );
 

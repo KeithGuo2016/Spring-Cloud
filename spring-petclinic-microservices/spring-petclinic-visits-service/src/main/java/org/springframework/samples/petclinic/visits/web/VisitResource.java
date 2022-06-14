@@ -16,12 +16,12 @@
 package org.springframework.samples.petclinic.visits.web;
 
 import java.util.List;
+
 import javax.validation.Valid;
 
-import io.micrometer.core.annotation.Timed;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.samples.petclinic.visits.model.Visit;
 import org.springframework.samples.petclinic.visits.model.VisitRepository;
@@ -32,6 +32,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.micrometer.core.annotation.Timed;
+import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Juergen Hoeller
@@ -45,8 +50,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @Timed("petclinic.visit")
 class VisitResource {
-
-    private final VisitRepository visitRepository;
+	
+	private static final Log logger = LogFactory.getLog(VisitResource.class);
+	@Autowired
+    private VisitRepository visitRepository;
 
     @PostMapping("owners/*/pets/{petId}/visits")
     @ResponseStatus(HttpStatus.CREATED)
@@ -55,7 +62,7 @@ class VisitResource {
         @PathVariable("petId") int petId) {
 
         visit.setPetId(petId);
-        log.info("Saving visit {}", visit);
+        logger.info("Saving visit "+ visit);
         return visitRepository.save(visit);
     }
 
@@ -73,5 +80,11 @@ class VisitResource {
     @Value
     static class Visits {
         List<Visit> items;
+
+		public Visits(List<Visit> items) {
+			super();
+			this.items = items;
+		}
+        
     }
 }

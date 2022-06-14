@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author Maciej Szarlinski
  */
-@Data
+//@Data
 public class PetDetails {
 
     private int id;
@@ -35,5 +35,43 @@ public class PetDetails {
     private PetType type;
 
     private final List<VisitDetails> visits = new ArrayList<>();
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public PetType getType() {
+		return type;
+	}
+
+	public void setType(PetType type) {
+		this.type = type;
+	}
+
+	public List<VisitDetails> getVisits() {
+		return visits;
+	}
+    
+    
 
 }

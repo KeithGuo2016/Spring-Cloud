@@ -15,15 +15,29 @@
  */
 package org.springframework.samples.petclinic.customers.web;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.samples.petclinic.customers.model.Owner;
+import org.springframework.samples.petclinic.customers.model.OwnerRepository;
+import org.springframework.samples.petclinic.customers.model.Pet;
+import org.springframework.samples.petclinic.customers.model.PetRepository;
+import org.springframework.samples.petclinic.customers.model.PetType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.samples.petclinic.customers.model.*;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Juergen Hoeller
@@ -36,9 +50,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 class PetResource {
-
-    private final PetRepository petRepository;
-    private final OwnerRepository ownerRepository;
+	
+	private static final Log logger = LogFactory.getLog(PetResource.class);
+	
+	@Autowired
+    private PetRepository petRepository;
+	@Autowired
+    private OwnerRepository ownerRepository;
 
 
     @GetMapping("/petTypes")
@@ -76,7 +94,7 @@ class PetResource {
         petRepository.findPetTypeById(petRequest.getTypeId())
             .ifPresent(pet::setType);
 
-        log.info("Saving pet {}", pet);
+        logger.info("Saving pet " + pet);
         return petRepository.save(pet);
     }
 
